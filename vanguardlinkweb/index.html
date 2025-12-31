@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Link | Digital Services NYC & Albany</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --bg-main: #050505; /* Deep black background */
+            --bg-secondary: #111111; /* Slightly lighter section bg */
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            /* The gradient pulled from the logo */
+            --accent-gradient: linear-gradient(135deg, #00c6ff, #a700ff);
+            --accent-blue: #00c6ff;
+            --accent-purple: #a700ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: 0.3s;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: rgba(5, 5, 5, 0.95);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        /* Gradient underline hover effect */
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            margin-top: 80px; /* offset for fixed header */
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);
+        }
+
+        .hero-logo-large {
+            width: 120px;
+            margin-bottom: 30px;
+        }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn-main {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(167, 0, 255, 0.4);
+        }
+
+        /* --- Services Section --- */
+        #services {
+            background-color: var(--bg-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-gradient);
+            margin: 20px auto 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--bg-main);
+            padding: 40px 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-5px);
+        }
+        
+        /* Subtle top gradient border on hover */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        
+        .service-icon i {
+             background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* --- About/Location Section --- */
+        #about {
+            text-align: center;
+        }
+        #about p {
+             font-size: 1.1rem;
+             color: var(--text-secondary);
+             max-width: 700px;
+             margin: 0 auto;
+        }
+
+        /* --- Contact Section --- */
+        #contact {
+            background-color: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .contact-flex {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-item i {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+        
+        .contact-item a.insta-link:hover i {
+             color: var(--accent-purple);
+        }
+
+        .contact-item span {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px;
+            }
+            .logo-text {
+                display: none; /* Hide text logo on small screens if needed */
+            }
+            nav ul li {
+                margin-left: 15px;
+            }
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+            .contact-flex {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Vanguard Link Shield Logo" class="logo-img">
+            <span class="logo-text">Vanguard Link</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <img src="logo.png" alt="Vanguard Link Logo" class="hero-logo-large">
+        <h1>Your Link to the <span class="gradient-text">Digital Future.</span></h1>
+        <p>Providing premium digital services, photography, and maintenance for individuals and businesses across the NYC and Albany areas.</p>
+        <a href="#contact" class="btn-main">Start Your Project</a>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <h3>Advertisement</h3>
+                <p>Strategic digital advertising designed to expand your reach and engage your target audience effectively.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h3>Website Commissions</h3>
+                <p>Custom-built, responsive websites tailored to your specific business needs and aesthetic goals.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+                <h3>Online Shop Maintenance</h3>
+                <p>Ensuring your e-commerce platform runs smoothly with regular updates, product management, and security checks.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <h3>Photography</h3>
+                <p>Professional photography services for products, events, portraits, and all types of business and personal needs in NYC & Albany.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>Photo Editing</h3>
+                <p>High-end photo retouching and editing to enhance your visuals and ensure they look absolutely perfect.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title" style="margin-bottom: 30px;">Serving NYC & Albany</h2>
+        <p>Vanguard Link is dedicated to bridging the gap between your vision and digital reality. We proudly serve clients throughout the New York City metropolitan area and the Capital Region surrounding Albany, providing local support with top-tier digital expertise.</p>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-flex">
+            <div class="contact-item">
+                <a href="tel:9293354638">
+                    <i class="fa-solid fa-phone"></i>
+                </a>
+                <span>(929) 335-4638</span>
+            </div>
+            <div class="contact-item">
+                <a href="https://instagram.com/vgdlink" target="_blank" class="insta-link">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <span>@vgdlink</span>
+            </div>
+        </div>
+    </section>
+<footer>
+
+</footer>
+</body>
+</html>

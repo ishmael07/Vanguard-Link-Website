@@ -506,9 +506,21 @@
             margin-bottom: 15px;
             transition: all 0.3s ease;
         }
+
+        .contact-icon-img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 15px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
         
         .contact-item:hover i {
             color: var(--accent-purple);
+            transform: scale(1.1);
+        }
+
+        .contact-item:hover .contact-icon-img {
             transform: scale(1.1);
         }
 
@@ -845,15 +857,15 @@
         </div>
         <div class="contact-flex">
             <a href="tel:9293354638" class="contact-item">
-                <i class="fa-solid fa-phone"></i>
+                <img src="images/phonee.png" alt="Phone Icon" class="contact-icon-img">
                 <span>(929) 335-4638</span>
             </a>
             <a href="https://instagram.com/vgdlink" target="_blank" class="contact-item">
-                <i class="fa-brands fa-instagram"></i>
+                <img src="images/instae.webp" alt="Instagram Icon" class="contact-icon-img">
                 <span>@vgdlink</span>
             </a>
             <a href="mailto:vglinkbusiness@gmail.com" class="contact-item">
-                <i class="fa-solid fa-envelope-circle-check"></i>
+                <img src="images/email.webp" alt="Email Icon" class="contact-icon-img">
                 <span>vglinkbusiness@gmail.com</span>
             </a>
         </div>

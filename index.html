@@ -840,18 +840,38 @@
         }
 
         .close-carousel {
-            position: absolute;
-            top: -50px;
-            right: 0;
+            position: fixed;
+            top: 30px;
+            right: 30px;
             color: white;
             font-size: 2.5rem;
             cursor: pointer;
             transition: 0.3s;
+            z-index: 10002;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            line-height: 1;
         }
 
         .close-carousel:hover {
             color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.2);
             transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .close-carousel {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 2rem;
+            }
         }
 
         .carousel-counter {
@@ -1003,8 +1023,8 @@
 
     <!-- Photography Carousel Modal -->
     <div id="photographyCarousel" class="carousel-modal">
+        <span class="close-carousel">&times;</span>
         <div class="carousel-container">
-            <span class="close-carousel">&times;</span>
             <button class="carousel-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
             <img src="" alt="Vanguard Link Photography" class="carousel-image" id="carouselImg">
             <button class="carousel-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
@@ -1030,7 +1050,8 @@
             'images/photography/1000104032.png',
             'images/photography/1000104034.png',
             'images/photography/1000104036.png',
-            'images/photography/1000104039.png'
+            'images/photography/1000104039.png',
+            'images/photography/image.png'
         ];
         
         let currentPhotoIdx = 0;

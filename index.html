@@ -9,6 +9,36 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script async src="https://tally.so/widgets/embed.js"></script>
+    <script>
+        // Force center Tally popup after it loads
+        function centerTallyPopup() {
+            const observer = new MutationObserver(function(mutations) {
+                const popups = document.querySelectorAll('div[style*="position: fixed"], iframe[src*="tally"]');
+                popups.forEach(popup => {
+                    const parent = popup.closest('div[style*="position: fixed"]') || popup.parentElement;
+                    if (parent && window.getComputedStyle(parent).position === 'fixed') {
+                        parent.style.cssText += 'top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 20px !important;';
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+        
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', centerTallyPopup);
+        } else {
+            centerTallyPopup();
+        }
+    </script>
+
     <style>
         /* --- CSS Variables & Reset --- */
         :root {
@@ -461,13 +491,21 @@
             font-size: 1.1rem;
             border-radius: 50px;
             box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-book-now:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(167, 0, 255, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(167, 0, 255, 0.5);
+        }
+
+        .btn-book-now:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .contact-flex {
@@ -730,6 +768,110 @@
                 height: 75px;
             }
         }
+
+        /* --- Tally Popup Styling --- */
+        /* Backdrop/Overlay - Modern dark blur effect */
+        body:has([data-tally-overlay])::before,
+        [data-tally-overlay],
+        .tally-overlay,
+        div[style*="position: fixed"][style*="inset: 0"] {
+            background: rgba(5, 5, 5, 0.92) !important;
+            backdrop-filter: blur(12px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            animation: fadeInBackdrop 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 9998 !important;
+        }
+
+        /* Popup Container - Centered with smooth animation */
+        [data-tally-popup],
+        .tally-popup,
+        div[style*="position: fixed"][style*="z-index: 9999"],
+        div[id*="tally"],
+        div[class*="tally"] {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            animation: popupSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform-origin: center !important;
+            z-index: 9999 !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* Tally iframe/modal - Modern styled with smooth transitions */
+        iframe[src*="tally.so"],
+        iframe[src*="tally"] {
+            border-radius: 24px !important;
+            box-shadow: 0 25px 80px rgba(0, 198, 255, 0.25), 
+                        0 0 0 1px rgba(167, 0, 255, 0.15),
+                        0 0 60px rgba(167, 0, 255, 0.08) !important;
+            animation: modalScaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            border: none !important;
+            max-width: 90vw !important;
+            max-height: 90vh !important;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* Close button styling with smooth transitions */
+        [data-tally-close],
+        button[aria-label*="close"],
+        button[aria-label*="Close"] {
+            color: var(--text-primary) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            opacity: 0.7 !important;
+        }
+
+        [data-tally-close]:hover,
+        button[aria-label*="close"]:hover,
+        button[aria-label*="Close"]:hover {
+            color: var(--accent-purple) !important;
+            transform: scale(1.15) rotate(90deg) !important;
+            opacity: 1 !important;
+        }
+
+        /* Modern Keyframe Animations */
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(12px) saturate(180%);
+            }
+        }
+
+        @keyframes popupSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, calc(-50% + 20px)) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes modalScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -851,9 +993,9 @@
     <section id="contact">
         <h2 class="section-title">Get In Touch</h2>
         <div class="book-now-container">
-            <a href="https://forms.gle/LmQvPgL4Cd4FDGRs7" target="_blank" class="btn-book-now">
+            <button class="btn-book-now" data-tally-open="zxyQ7E">
                 <i class="fa-solid fa-calendar-check" style="margin-right: 10px;"></i>Book Now
-            </a>
+            </button>
         </div>
         <div class="contact-flex">
             <a href="tel:9293354638" class="contact-item">

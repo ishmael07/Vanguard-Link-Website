@@ -759,6 +759,107 @@
                 0 15px 50px rgba(0, 0, 0, 0.8) !important;
             border: none !important;
         }
+
+        /* --- Photography Carousel Styling --- */
+        .carousel-modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .carousel-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 198, 255, 0.3);
+            object-fit: contain;
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease;
+        }
+
+        .carousel-modal.active .carousel-image {
+            transform: scale(1);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-gradient);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px rgba(167, 0, 255, 0.6);
+        }
+
+        .prev-btn { left: -70px; }
+        .next-btn { right: -70px; }
+
+        @media (max-width: 900px) {
+            .prev-btn { left: 10px; background: rgba(0, 0, 0, 0.5); }
+            .next-btn { right: 10px; background: rgba(0, 0, 0, 0.5); }
+            .carousel-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+
+        .close-carousel {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-carousel:hover {
+            color: var(--accent-blue);
+            transform: rotate(90deg);
+        }
+
+        .carousel-counter {
+            color: var(--text-secondary);
+            margin-top: 20px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
@@ -850,7 +951,7 @@
         </div>
         <div class="services-grid-bottom">
             <div class="service-card">
-                <a href="#sample-work" onclick="event.preventDefault(); alert('Sample work gallery coming soon!'); return false;">
+                <a href="#sample-work" onclick="event.preventDefault(); openCarousel(); return false;">
                     <div class="service-icon">
                         <img src="images/photoed.png" alt="Photography Icon">
                     </div>
@@ -899,8 +1000,109 @@
             </a>
         </div>
     </section>
-<footer>
 
+    <!-- Photography Carousel Modal -->
+    <div id="photographyCarousel" class="carousel-modal">
+        <div class="carousel-container">
+            <span class="close-carousel">&times;</span>
+            <button class="carousel-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <img src="" alt="Vanguard Link Photography" class="carousel-image" id="carouselImg">
+            <button class="carousel-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="carousel-counter"><span id="currentIdx">1</span> / <span id="totalIdx">5</span></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Photography Carousel Logic ---
+        const photos = [
+            'images/photography/1000104007.png',
+            'images/photography/1000104009.png',
+            'images/photography/1000104011.png',
+            'images/photography/1000104013.png',
+            'images/photography/1000104015.png',
+            'images/photography/1000104017.png',
+            'images/photography/1000104019.png',
+            'images/photography/1000104021.png',
+            'images/photography/1000104023.png',
+            'images/photography/1000104025.png',
+            'images/photography/1000104028.png',
+            'images/photography/1000104030.png',
+            'images/photography/1000104032.png',
+            'images/photography/1000104034.png',
+            'images/photography/1000104036.png',
+            'images/photography/1000104039.png'
+        ];
+        
+        let currentPhotoIdx = 0;
+        const modal = document.getElementById('photographyCarousel');
+        const carouselImg = document.getElementById('carouselImg');
+        const currentIdxDisplay = document.getElementById('currentIdx');
+        const totalIdxDisplay = document.getElementById('totalIdx');
+
+        function openCarousel() {
+            currentPhotoIdx = 0;
+            totalIdxDisplay.innerText = photos.length;
+            updateCarousel();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeCarousel() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateCarousel() {
+            carouselImg.style.opacity = '0';
+            carouselImg.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                carouselImg.src = photos[currentPhotoIdx];
+                currentIdxDisplay.innerText = currentPhotoIdx + 1;
+                
+                carouselImg.onload = () => {
+                    carouselImg.style.opacity = '1';
+                    carouselImg.style.transform = 'scale(1)';
+                };
+            }, 250);
+        }
+
+        function nextPhoto() {
+            currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
+            updateCarousel();
+        }
+
+        function prevPhoto() {
+            currentPhotoIdx = (currentPhotoIdx - 1 + photos.length) % photos.length;
+            updateCarousel();
+        }
+
+        document.querySelector('.next-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextPhoto();
+        });
+        
+        document.querySelector('.prev-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            prevPhoto();
+        });
+
+        document.querySelector('.close-carousel').addEventListener('click', closeCarousel);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeCarousel();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextPhoto();
+            if (e.key === 'ArrowLeft') prevPhoto();
+            if (e.key === 'Escape') closeCarousel();
+        });
+    </script>
+
+<footer>
+    <p>&copy; 2025 Vanguard Link. All rights reserved.</p>
 </footer>
 </body>
 </html>
